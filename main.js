@@ -22,6 +22,20 @@ var data = {
         audio: "",
         text: "Who are you? Where are you from?"
       }
+    },
+    {
+      text:{
+        name: "Mei",
+        audio: "",
+        text: "What are you doing here in my room?"
+      }
+    },
+    {
+      text:{
+        name: "Mei",
+        audio: "",
+        text: "Are you going to do me harm?"
+      }
     }
   ]
 }
@@ -54,28 +68,30 @@ function createFigure(key) {
    
   return figure; 
 }
-
 function createBackgroundMusic(key){
   var music = game.add.audio(key);
   music.onDecoded.add(function(){
     music.fadeIn(5000);
   }, this);
 }
-
 function createAudio(key){
   var audio = game.add.audio(key);
   audio.onDecoded.add(function(){
     audio.play();
   },this);
 }
-
 function createHotKey(){
   key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     key1.onDown.add(next, this);
 }
-
+function createText(text){
+  var style = { font: "32px Courier", fill: "#000000", fontWeight: "bold" };
+  var text = game.add.text(45, 960-320+45, text, style);
+  return text;
+}
 function next(){
   console.log("NEXT");
+  gotoPage += 1;
 }
 
 // Main Functions
@@ -96,12 +112,15 @@ function create() {
   createTextFrame('text-frame')
   createFigure('mei');
   createAudio('music');
+  text = createText(data.update[0].text.text);
 }
 
 var enterIsDown = false;
 function update() {
-
-
+  if(currentPage != gotoPage){
+    text.setText(data.update[gotoPage].text.text);
+  } 
+  currentPage = gotoPage;
 }
 
 
@@ -111,4 +130,11 @@ var game = new Phaser.Game(1280,960,Phaser.Auto,'',{
   create: create,
   update: update
 });
+
+// States
+var currentPage = 0;
+var gotoPage = 0;
+
+//Sprites
+var text;
 
