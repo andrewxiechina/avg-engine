@@ -84,15 +84,22 @@ function createHotKey(){
   key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     key1.onDown.add(next, this);
 }
+function next(){
+  console.log("NEXT");
+  gotoPage += 1;
+}
 function createText(text){
   var style = { font: "32px Courier", fill: "#000000", fontWeight: "bold" };
   var text = game.add.text(45, 960-320+45, text, style);
   return text;
 }
-function next(){
-  console.log("NEXT");
-  gotoPage += 1;
+function updateText() {
+  if(currentPage != gotoPage){
+    text.setText(data.update[gotoPage].text.text);
+  } 
+  currentPage = gotoPage;
 }
+
 
 // Main Functions
 function preload() {
@@ -115,12 +122,8 @@ function create() {
   text = createText(data.update[0].text.text);
 }
 
-var enterIsDown = false;
 function update() {
-  if(currentPage != gotoPage){
-    text.setText(data.update[gotoPage].text.text);
-  } 
-  currentPage = gotoPage;
+  updateText();
 }
 
 
