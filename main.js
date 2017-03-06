@@ -4,10 +4,15 @@
 // Test data
 var data = {
   preload:{
-    "bg1": "bg-home-1.jpg",
-    "bg2": "bg-gargen-1.jpg",
-    "mei": "mei.png",
-    "ling": "ling.png"
+    image:{
+      "bg1": "bg-home-1.jpg",
+      "bg2": "bg-gargen-1.jpg",
+      "mei": "mei.png",
+      "ling": "ling.png"
+    },
+    audio: {
+      "music": "music1.mp3"
+    }
   }
 }
 function createBackground(key) {
@@ -31,17 +36,36 @@ function createFigure(key) {
   return figure; 
 }
 
+function createBackgroundMusic(key){
+  var music = game.add.audio(key);
+  music.onDecoded.add(function(){
+    music.fadeIn(5000);
+  }, this);
+}
+
+function createAudio(key){
+  var audio = game.add.audio(key);
+  audio.onDecoded.add(function(){
+    audio.play();
+  },this);
+}
+
 // Main Functions
 function preload() {
-  var urls = data.preload;
-  for(var key in urls){
-    game.load.image(key, urls[key]);
+  var img = data.preload.image;
+  for(var key in img){
+    game.load.image(key, img[key]);
+  }
+  var audio = data.preload.audio;
+  for(var key in audio){
+    game.load.audio(key, audio[key]);
   }
 }
 
 function create() {
   createBackground('bg1');
   createFigure('mei');
+  createAudio('music');
 }
 
 function update() {
