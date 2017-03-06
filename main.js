@@ -1,40 +1,57 @@
-// Code goes here
-var game = new Phaser.Game(800,600,Phaser.Auto,'',{
-  preload: preload,
-  create: create,
-  update: update
-});
 
-// Globals
-var p1, p2, ball;
 
-var ballLaunched = false;
-var ballVelocity = 400;
 
+// Test data
+var data = {
+  preload:{
+    "bg1": "bg-home-1.jpg",
+    "bg2": "bg-gargen-1.jpg",
+    "mei": "mei.png",
+    "ling": "ling.png"
+  }
+}
+function createBackground(key) {
+  var bg = game.add.sprite(0,0,key);
+  bg.alpha = 0;
+  var animation = game.add.tween(bg);
+  animation.to({ alpha: 1}, 1000, null);   
+  animation.start(); 
+  return bg;
+}
+function createFigure(key) {
+  var figure = game.add.sprite(1280,640,key);
+  figure.anchor.setTo(1,1);
+  figure.alpha = 0;
+  var animation = game.add.tween(figure);
+  animation.to({ alpha: 1}, 600, null);   
+  setTimeout(function(){
+    animation.start();
+  }, 1000);
+   
+  return figure; 
+}
+
+// Main Functions
 function preload() {
-  game.load.image('mei', 'http://res.cloudinary.com/andyxie/image/upload/v1488490994/person1_n1jlzn.png');
-  game.load.image('ball', 'ball.png');
+  var urls = data.preload;
+  for(var key in urls){
+    game.load.image(key, urls[key]);
+  }
 }
 
 function create() {
-  createFigure();
+  createBackground('bg1');
+  createFigure('mei');
 }
 
 function update() {
 }
 
-function createFigure() {
-  var figure = game.add.sprite(0,0,'mei');
-  figure.alpha = 0;
-  var figureEnters = game.add.tween(figure);
-  figureEnters.to({ alpha: 1}, 600, null);   
-  figureEnters.start(); 
-    // pigArrives.to({x:150}, 1000, Phaser.Easing.Bounce.Out);
-    // pigArrives.onComplete.add(firstTween, this);
-    // pigArrives.start();
 
-  return figure;
-  
-}
-
+// Phaser Entry Point
+var game = new Phaser.Game(1280,960,Phaser.Auto,'',{
+  preload: preload,
+  create: create,
+  update: update
+});
 
