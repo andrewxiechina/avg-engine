@@ -11,7 +11,19 @@ var data = {
     audio: {
       "music": "music1.mp3"
     }
-  }
+  },
+  create: {
+
+  },
+  update: [
+    {
+      text:{
+        name: "Mei",
+        audio: "",
+        text: "Who are you? Where are you from?"
+      }
+    }
+  ]
 }
 function createBackground(key) {
   var bg = game.add.sprite(0,0,key);
@@ -57,6 +69,15 @@ function createAudio(key){
   },this);
 }
 
+function createHotKey(){
+  key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    key1.onDown.add(next, this);
+}
+
+function next(){
+  console.log("NEXT");
+}
+
 // Main Functions
 function preload() {
   var img = data.preload.image;
@@ -70,13 +91,17 @@ function preload() {
 }
 
 function create() {
+  createHotKey();
   createBackground('bg1');
   createTextFrame('text-frame')
   createFigure('mei');
   createAudio('music');
 }
 
+var enterIsDown = false;
 function update() {
+
+
 }
 
 
