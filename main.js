@@ -1,6 +1,3 @@
-
-
-
 // Test data
 var data = {
   preload:{
@@ -8,7 +5,8 @@ var data = {
       "bg1": "bg-home-1.jpg",
       "bg2": "bg-gargen-1.jpg",
       "mei": "mei.png",
-      "ling": "ling.png"
+      "ling": "ling.png",
+      "text-frame": "text-frame.png"
     },
     audio: {
       "music": "music1.mp3"
@@ -17,6 +15,15 @@ var data = {
 }
 function createBackground(key) {
   var bg = game.add.sprite(0,0,key);
+  bg.alpha = 0;
+  var animation = game.add.tween(bg);
+  animation.to({ alpha: 1}, 1000, null);   
+  animation.start(); 
+  return bg;
+}
+function createTextFrame(key) {
+  var bg = game.add.sprite(1280,960,key);
+  bg.anchor.setTo(1,1);
   bg.alpha = 0;
   var animation = game.add.tween(bg);
   animation.to({ alpha: 1}, 1000, null);   
@@ -64,6 +71,7 @@ function preload() {
 
 function create() {
   createBackground('bg1');
+  createTextFrame('text-frame')
   createFigure('mei');
   createAudio('music');
 }
