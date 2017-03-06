@@ -6,7 +6,8 @@ var data = {
       "bg2": "bg-gargen-1.jpg",
       "mei": "mei.png",
       "ling": "ling.png",
-      "text-frame": "text-frame.png"
+      "text-frame": "text-frame.png",
+      "button": "black.png"
     },
     audio: {
       "music": "music1.mp3"
@@ -35,6 +36,16 @@ var data = {
         name: "Mei",
         audio: "",
         text: "Are you going to do me harm?"
+      }
+    },
+    {
+      options: {
+        "option1": {
+          text: "I will not tell you who I am."
+        },
+        "option2":{
+          text: "I forgot my name."
+        }
       }
     }
   ]
@@ -80,24 +91,51 @@ function createAudio(key){
     audio.play();
   },this);
 }
-function createHotKey(){
-  key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-    key1.onDown.add(next, this);
-}
-function next(){
-  console.log("NEXT");
-  gotoPage += 1;
-}
 function createText(text){
   var style = { font: "32px Courier", fill: "#000000", fontWeight: "bold" };
   var text = game.add.text(45, 960-320+45, text, style);
   return text;
 }
-function updateText() {
-  if(currentPage != gotoPage){
-    text.setText(data.update[gotoPage].text.text);
-  } 
-  currentPage = gotoPage;
+function createButton(y,name,content) {
+  var x = 140;
+  var button = game.add.button(140, y, 'button', click, this, 0, 1, 2);
+  button.alpha = 0.7;
+  button.scale.set(1.6,1);
+  button.name = name;
+  var style = { font: "30px Courier", fill: "#FFFFFF"};
+  var text = game.add.text(0,0, content, style);
+  text.x = x + button.width/2 - text.width/2;
+  text.y = y + button.height/2 - text.height/2 + 10;
+}
+function createButtons(options){
+  var i = 0;
+  for(var key in options){
+    // To change to a system of events?? / passing callbacks??
+    i += 1;
+    createButton(i*100,i,options[key].text);   
+  }
+}
+function click(button) {
+	console.log(button.name);
+}
+function createHotKey(){
+  key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    key1.onDown.add(next, this);
+}
+function next(){
+  currentPage += 1;
+  var myText = data.update[currentPage].text;
+  if(myText){
+    console.log(myText);
+    nextText(myText.text);
+  }
+  var options = data.update[currentPage].options;
+  if(options){
+    createButtons(options);
+  }
+}
+function nextText(newText) {
+  text.text = newText
 }
 
 
@@ -123,7 +161,7 @@ function create() {
 }
 
 function update() {
-  updateText();
+  
 }
 
 
